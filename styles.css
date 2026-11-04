@@ -75,8 +75,9 @@
   color: var(--muted);
 }
 .iffa-form h1 {
+  text-align: center;
   font:
-    46px/1.2 "Playfair Display",
+    56px/1.2 "Playfair Display",
     Georgia,
     serif;
   color: #fdfdfd;
@@ -480,7 +481,7 @@
     padding: 24px 16px;
   }
   .iffa-form h1 {
-    font-size: 36px;
+    font-size: 40px;
   }
   .if-grid {
     grid-template-columns: 1fr;

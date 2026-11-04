@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>IFFA — Film Submission Design</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="iffa-form">
+      <header class="if-header">
+        <a href="#" aria-label="IFFA home">
+          <span class="if-wordmark">iffa<span>AWARDS</span></span></a
+        >
+        <nav aria-label="Main navigation">
+          <a href="#">Talent Lab</a><a href="#">Events</a
+          ><a href="#">Festival</a><a href="#">Podcast</a
+          ><a href="#">Latest News</a
+          ><a href="#" class="if-enquiry">Submit film enquiry</a>
+        </nav>
+        <a class="if-outline" href="#">Distribution enquiry</a>
+      </header>
+      <main>
+        <p class="if-eyebrow">IFFA Awards / Film submission</p>
+        <h1>Submit Your Film</h1>
+        <p>There are 5 sections to complete. </p>
+        <p>Please have all relevent media and URLs ready before beginning as you will need to provide them in the appropriate sections.</p>
+        <nav class="if-section-nav" aria-label="Submission sections">
+          <div class="if-section-links">
+            <a href="#film-details"
+              ><span aria-hidden="true">1</span>Film details</a
+            >
+            <a href="#cast-crew"><span aria-hidden="true">2</span>Crew</a>
+            <a href="#award-entries-section"
+              ><span aria-hidden="true">3</span>Nominations</a
+            >
+            <a href="#media-links"><span aria-hidden="true">4</span>Media</a>
+            <a href="#review-submit"><span aria-hidden="true">5</span>Review</a>
+          </div>
+          <div class="if-section-progress">
+            <span id="visited-count">0 of 5 sections visited</span>
+            <progress
+              max="5"
+              value="0"
+              aria-labelledby="visited-count"
+            ></progress>
+          </div>
+        </nav>
+        <details class="if-section" id="film-details">
+          <summary class="if-section-toggle">
+            <span class="if-number">1</span>
+            <h2>Film details</h2>
+            <span class="if-chevron" aria-hidden="true">⌄</span>
+          </summary>
+
+          <div class="if-section-body">
+            <p>Provide the basic information about your film.</p>
+
+          <div class="if-section-body">
+            <div class="if-grid">
+              <label class="if-field"
+                >Film title <span>*</span>
+                <input type="text" placeholder="Film title" />
+              </label>
+              <label class="if-field"
+                >Synopsis <span>*</span>
+                <textarea rows="3" placeholder="Synopsis"></textarea>
+              </label>
+              <label class="if-field"
+                >Release date <span>*</span
+                ><input type="date" placeholder="Release date"
+              /></label>
+              <div class="if-grid">
+                <label class="if-field"
+                  >Runtime hours <span>*</span>
+                  <input type="number" placeholder="Runtime hours"
+                /></label>
+                <label class="if-field"
+                  >Runtime minutes <span>*</span>
+                  <input type="number" placeholder="Runtime minutes" />
+                </label>
+              </div>
+              <label class="if-field"
+                >Screen format <span>*</span>
+                <select>
+                  <option value="" disabled="" selected="">Select…</option>
+                  <option>Feature film</option>
+                  <option>Short film</option>
+                  <option>Documentary</option>
+                  <option>Animation</option>
+                  <option>Web series</option>
+                  <option>Under 18s film</option>
+                  <option>TV Series</option>
+
+                </select>
+              </label>
+              <div class="if-field if-multi-field">
+                <label for="country-origin-search"
+                  >Country of origin <span>*</span></label
+                >
+                <div
+                  class="if-multi-select"
+                  data-options="countries"
+                  data-name="countryOfOrigin"
+                  data-required="true"
+                  id="country-origin"
+                >
+                  <div class="if-multi-selected" aria-label="Selected countries"></div>
+                  <input
+                    id="country-origin-search"
+                    type="text"
+                    placeholder="Type to search countries…"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="country-origin-options"
+                  />
+                  <div
+                    class="if-multi-options"
+                    id="country-origin-options"
+                    role="listbox"
+                    aria-label="Country suggestions"
+                    aria-multiselectable="true"
+                    hidden
+                  ></div>
+                </div>
+              </div>
+              <div class="if-field if-multi-field">
+                <label for="release-countries-search"
+                  >Countries of release <span>*</span></label
+                >
+                <div
+                  class="if-multi-select"
+                  data-options="countries"
+                  data-name="countriesOfRelease"
+                  id="release-countries"
+                >
+                  <div class="if-multi-selected" aria-label="Selected countries"></div>
+                  <input
+                    id="release-countries-search"
+                    type="text"
+                    placeholder="Type to search countries…"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="release-countries-options"
+                  />
+                  <div
+                    class="if-multi-options"
+                    id="release-countries-options"
+                    role="listbox"
+                    aria-label="Country suggestions"
+                    aria-multiselectable="true"
+                    hidden
+                  ></div>
+                </div>
+              </div>
+              <label class="if-field"
+                >Available on <span>*</span>
+                <select>
+                  <option value="" disabled="" selected="">Select…</option>
+                  <option>Cinema</option>
+                  <option>Streaming</option>
+                  <option>TV</option>
+                  <option>Festival</option>
+                </select>
+              </label>
+              <label class="if-field"
+                >Release link <small>Optional</small>
+                <input type="text" placeholder="Release link"
+              /></label>
+              <div class="if-field if-multi-field">
+                <label for="languages-search"
+                  >Primary language <span>*</span></label
+                >
+                <div
+                  class="if-multi-select"
+                  data-options="languages"
+                  data-name="primaryLanguage"
+                  id="languages"
+                >
+                  <div class="if-multi-selected" aria-label="Selected languages"></div>
+                  <input
+                    id="languages-search"
+                    type="text"
+                    placeholder="Type to search languages…"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="languages-options"
+                  />
+                  <div
+                    class="if-multi-options"
+                    id="languages-options"
+                    role="listbox"
+                    aria-label="Language suggestions"
+                    aria-multiselectable="true"
+                    hidden
+                  ></div>
+                </div>
+              </div>
+              <label class="if-field"
+                >Production house <span>*</span>
+                <input type="text" placeholder="Production house"
+              /></label>
+              <label class="if-field"
+                >Distributor <small>Optional</small>
+                <input type="text" placeholder="Distributor"
+              /></label>
+              <div class="if-field if-multi-field">
+                <label for="genres-search">Genres <span>*</span></label>
+                <div
+                  class="if-multi-select"
+                  data-options="genres"
+                  data-name="genres"
+                  data-allow-custom="true"
+                  id="genres"
+                >
+                  <div class="if-multi-selected" aria-label="Selected genres"></div>
+                  <input
+                    id="genres-search"
+                    type="text"
+                    placeholder="Type to search genres…"
+                    autocomplete="off"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="genres-options"
+                  />
+                  <div
+                    class="if-multi-options"
+                    id="genres-options"
+                    role="listbox"
+                    aria-label="Genre suggestions"
+                    aria-multiselectable="true"
+                    hidden
+                  ></div>
+                </div>
+                <small>choose or enter a custom genre.</small>
+              </div>
+            </div>
+          </div>
+        </details>
+        <details
+          class="if-section"
+          id="cast-crew"
+          data-cast-crew-section
+        >
+          <summary class="if-section-toggle">
+            <span class="if-number">2</span>
+            <h2>Cast &amp; crew</h2>
+            <span class="if-chevron" aria-hidden="true">⌄</span>
+            
+          </summary>
+
+            <div class="if-section-body">
+              <p> Add the key people involved in your film. You can add multiple people for each role.
+              </p>
+          <div class="if-section-body" id="crew-groups"></div>
+        </details>
+        <details class="if-section" id="award-entries-section">
+          <summary class="if-section-toggle">
+            <span class="if-number">3</span>
+            <h2>Award entries</h2>
+            <span class="if-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="if-section-body">
+            <p>
+              Add one entry per category, then select everyone you wish to
+              nominate.
+            </p>
+            <div id="award-entries"></div>
+            <button type="button" id="add-award">+ Add category</button>
+            <p id="award-status" role="status"></p>
+          </div>
+        </details>
+        <details class="if-section" id="media-links">
+          <summary class="if-section-toggle">
+            <span class="if-number">4</span>
+            <h2>Media &amp; links</h2>
+            <span class="if-chevron" aria-hidden="true">⌄</span>
+          </summary>
+            <div class="if-section-body">
+              <p>
+                Add the media and links you wish to share with the IFFA Awards
+                team.
+              </p>
+
+          <div class="if-section-body">
+            <div class="if-grid">
+              <div class="if-image">
+                <strong>Portrait poster *</strong>
+                <div class="if-image-placeholder">＋ Image preview</div>
+                <small>WEBP · up to 5 MB</small
+                ><small
+                  >Image selection is disabled in this design preview.</small
+                >
+              </div>
+              <div class="if-image">
+                <strong>Landscape banner *</strong>
+                <div class="if-image-placeholder">＋ Image preview</div>
+                <small>WEBP · up to 5 MB</small
+                ><small
+                  >Image selection is disabled in this design preview.</small
+                >
+              </div>
+              <label class="if-field"
+                >IMDb URL <span>*</span
+                ><input type="text" placeholder="IMDb URL" /></label
+              ><label class="if-field"
+                >Downloadable trailer link <span>*</span
+                ><input type="text" placeholder="Downloadable trailer link"
+              /></label>
+            </div>
+            <p>
+              Link to externally hosted videos. Include English subtitles where
+              needed.
+            </p>
+            <fieldset class="if-password-question" data-password-question>
+              <legend>Is the trailer password protected?</legend>
+              <div class="if-password-choices">
+                <label>
+                  <input type="radio" name="trailerPasswordProtected" value="yes" />
+                  <span>Yes</span>
+                </label>
+                <label>
+                  <input type="radio" name="trailerPasswordProtected" value="no" />
+                  <span>No</span>
+                </label>
+              </div>
+              <div class="if-password-details" hidden>
+                <label class="if-field">
+                  Trailer password <span>*</span>
+                  <input
+                    type="password"
+                    name="trailerPassword"
+                    placeholder="Enter trailer password"
+                    autocomplete="new-password"
+                  />
+                </label>
+                <p class="if-password-disclaimer">
+                  Please provide the password now so the awards team can access
+                  your trailer without needing to follow up with you later.
+                </p>
+              </div>
+            </fieldset>
+            <h3>Promotional clip</h3>
+            <div class="if-grid">
+              <label class="if-field"
+                >Download link <small>Optional</small
+                ><input type="text" placeholder="Download link" /></label
+              >
+            </div>
+            <fieldset class="if-password-question" data-password-question>
+              <legend>Is the promotional clip password protected?</legend>
+              <div class="if-password-choices">
+                <label>
+                  <input type="radio" name="clipPasswordProtected" value="yes" />
+                  <span>Yes</span>
+                </label>
+                <label>
+                  <input type="radio" name="clipPasswordProtected" value="no" />
+                  <span>No</span>
+                </label>
+              </div>
+              <div class="if-password-details" hidden>
+                <label class="if-field">
+                  Clip password <span>*</span>
+                  <input
+                    type="password"
+                    name="clipPassword"
+                    placeholder="Enter clip password"
+                    autocomplete="new-password"
+                  />
+                </label>
+                <p class="if-password-disclaimer">
+                  Please provide the password now so the awards team can access
+                  your clip without needing to follow up with you later.
+                </p>
+              </div>
+            </fieldset>
+            <label class="if-field"
+              >Additional notes <small>Optional</small
+              ><textarea rows="3" placeholder="Additional notes"></textarea>
+            </label>
+          </div>
+        </details>
+        <details class="if-section" id="review-submit">
+          <summary class="if-section-toggle">
+            <span class="if-number">5</span>
+            <h2>Review &amp; submit</h2>
+            <span class="if-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="if-section-body">
+            <h3>Check your submission</h3>
+            <p>
+              Review your film details, people, award entries and media above.
+            </p>
+            <label class="if-field"
+              >Submission contact email <span>*</span
+              ><input
+                type="email"
+                placeholder="Submission contact email" /></label
+            ><label class="if-check"
+              ><input type="checkbox" />I confirm I have the rights to submit
+              this film and allow IFFA Awards to promote it.</label
+            >
+            <div class="if-submit">
+              <button type="button" class="if-primary" disabled="">
+                Submit film</button>
+            </div>
+          </div>
+        </details>
+      </main>
+      <footer>IFFA Awards</footer>
+    </div>
+    <script src="form.js"></script>
+  </body>
+</html>

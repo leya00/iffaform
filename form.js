@@ -244,6 +244,34 @@ for (const root of document.querySelectorAll(".if-multi-select")) {
   initializeMultiSelect(root, optionSet);
 }
 
+const runtimeHours = document.querySelector("#runtime-hours");
+const runtimeMinutes = document.querySelector("#runtime-minutes");
+const runtimeValue = document.querySelector('[name="runtime"]');
+function updateRuntime() {
+  const hours = runtimeHours.value === "" ? 0 : Number(runtimeHours.value);
+  const minutes = runtimeMinutes.value === "" ? 0 : Number(runtimeMinutes.value);
+  const valid =
+    Number.isInteger(hours) &&
+    hours >= 0 &&
+    Number.isInteger(minutes) &&
+    minutes >= 0 &&
+    minutes <= 59 &&
+    hours + minutes > 0;
+  const message = valid
+    ? ""
+    : "Enter a runtime greater than zero, with minutes from 0 to 59.";
+  runtimeHours.setCustomValidity(message);
+  runtimeMinutes.setCustomValidity(message);
+
+  const parts = [];
+  if (hours) parts.push(`${hours} ${hours === 1 ? "hr" : "hrs"}`);
+  if (minutes) parts.push(`${minutes} ${minutes === 1 ? "min" : "mins"}`);
+  runtimeValue.value = valid ? parts.join(" ") : "";
+}
+runtimeHours.addEventListener("input", updateRuntime);
+runtimeMinutes.addEventListener("input", updateRuntime);
+updateRuntime();
+
 for (const question of document.querySelectorAll("[data-password-question]")) {
   const details = question.querySelector(".if-password-details");
   const password = details.querySelector('input[type="password"]');
@@ -306,6 +334,95 @@ const crew = document.querySelector("#crew-groups");
 const awards = document.querySelector("#award-entries");
 const addAward = document.querySelector("#add-award");
 const awardStatus = document.querySelector("#award-status");
+const interviewPeople = document.querySelector("#interview-people");
+const interviewPeopleHelp = document.querySelector("#interview-people-help");
+const interviewDetails = document.querySelector("#interview-details");
+const interviewCustomPeople = document.querySelector(
+  "#interview-custom-people",
+);
+const addInterviewPerson = document.querySelector("#add-interview-person");
+const interviewCountry = document.querySelector(
+  '[name="interviewContactCountry"]',
+);
+
+for (const [code, name] of countryCodes
+  .map((code) => [code, countryNames.of(code)])
+  .sort((a, b) => a[1].localeCompare(b[1]))) {
+  const option = document.createElement("option");
+  option.value = code;
+  option.textContent = name;
+  interviewCountry.append(option);
+}
+
+function refreshInterviewPeople() {
+  const chosen = new Set(
+    [...interviewPeople.querySelectorAll('input[type="checkbox"]:checked')].map(
+      (input) => input.value,
+    ),
+  );
+  const eligible = [...people].filter(([, person]) => person.name);
+  interviewPeople.replaceChildren();
+  for (const [id, person] of eligible) {
+    const label = document.createElement("label");
+    label.className = "if-check";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "interviewParticipants";
+    checkbox.value = id;
+    checkbox.checked = chosen.has(id);
+    label.append(checkbox, `${person.name} — ${person.role || person.fallback}`);
+    interviewPeople.append(label);
+  }
+  interviewPeopleHelp.hidden = eligible.length > 0;
+}
+
+function addCustomInterviewPerson() {
+  const row = document.createElement("div");
+  row.className = "if-interview-custom-person if-grid";
+  row.innerHTML = `
+    <label class="if-field">Name <span>*</span>
+      <input type="text" name="customInterviewParticipantName" required />
+    </label>
+    <label class="if-field">Role or position <span>*</span>
+      <input type="text" name="customInterviewParticipantRole" required />
+    </label>
+    <button type="button" class="if-remove-interview-person">Remove</button>
+  `;
+  row
+    .querySelector(".if-remove-interview-person")
+    .addEventListener("click", () => row.remove());
+  interviewCustomPeople.append(row);
+  row.querySelector("input").focus();
+}
+
+addInterviewPerson.addEventListener("click", addCustomInterviewPerson);
+
+const interviewContactFields = [
+  ...interviewDetails.querySelectorAll(
+    'input[name^="interviewContact"], select[name^="interviewContact"]',
+  ),
+];
+for (const control of interviewDetails.querySelectorAll(
+  "input, select, textarea, button",
+)) {
+  control.disabled = true;
+}
+for (const choice of document.querySelectorAll(
+  'input[name="interviewInterest"]',
+)) {
+  choice.required = true;
+  choice.addEventListener("change", () => {
+    const interested = choice.value === "yes";
+    interviewDetails.hidden = !interested;
+    for (const control of interviewDetails.querySelectorAll(
+      "input, select, textarea, button",
+    )) {
+      control.disabled = !interested;
+    }
+    for (const control of interviewContactFields)
+      control.required = interested;
+  });
+}
 
 function refreshAwards() {
   const entries = [...awards.children];
@@ -405,6 +522,7 @@ function addPerson(group, list, empty, number, open) {
     card.querySelector("summary strong").textContent = person.name || fallback;
     card.querySelector("summary small").textContent = person.role;
     refreshAwards();
+    refreshInterviewPeople();
   }
   nameInput.addEventListener("input", updatePerson);
   roleInput.addEventListener("input", updatePerson);
@@ -413,6 +531,7 @@ function addPerson(group, list, empty, number, open) {
     card.remove();
     empty.hidden = list.children.length > 0;
     refreshAwards();
+    refreshInterviewPeople();
   });
   list.append(card);
   empty.hidden = true;
@@ -493,8 +612,124 @@ const sections = sectionLinks.map((link) =>
 const visited = new Set();
 const progress = sectionNav.querySelector("progress");
 const visitedCount = document.querySelector("#visited-count");
+const reviewOverview = document.querySelector("#review-overview");
+const reviewSection = document.querySelector("#review-submit");
 let activeSection = null;
 let framePending = false;
+
+function updateReviewOverview() {
+  reviewOverview.replaceChildren();
+
+  for (const [index, section] of sections.entries()) {
+    if (section === reviewSection) continue;
+
+    const group = document.createElement("section");
+    group.className = "if-review-group";
+    const heading = document.createElement("h3");
+    heading.textContent = sectionLinks[index].textContent.trim().replace(/^\d+\s*/, "");
+    group.append(heading);
+
+    const rows = new Map();
+    for (const control of section.querySelectorAll(
+      "input, select, textarea",
+    )) {
+      if (
+        control.disabled ||
+        control.closest("[hidden]") ||
+        control.id === "runtime-hours" ||
+        control.id === "runtime-minutes" ||
+        (control.matches(".if-role") &&
+          !control.closest(".if-person")?.querySelector(".if-name")?.value.trim()) ||
+        control.type === "button" ||
+        control.type === "submit" ||
+        control.type === "reset" ||
+        (control.type === "checkbox" && !control.checked) ||
+        (control.type === "radio" && !control.checked)
+      ) {
+        continue;
+      }
+
+      const fieldLabel = control.closest("label");
+      let label = "";
+      if (fieldLabel) {
+        const labelClone = fieldLabel.cloneNode(true);
+        labelClone
+          .querySelectorAll("input, select, textarea, button, small")
+          .forEach((element) => element.remove());
+        label = labelClone.textContent || "";
+      }
+      if (!label && control.dataset.reviewLabel)
+        label = control.dataset.reviewLabel;
+      if (!label && control.type === "hidden") {
+        label =
+          control.closest(".if-multi-select")?.parentElement.querySelector("label")
+            ?.textContent || control.name;
+      }
+      label = label.replace(/\s+/g, " ").replace(/\s*\*\s*/g, " ").trim();
+
+      let value = control.value?.trim() || "";
+      if (control.type === "password") value = value ? "Provided" : "";
+      if (control.type === "file")
+        value = [...control.files].map((file) => file.name).join(", ");
+      if (control.type === "checkbox") {
+        value = control.closest("label")?.textContent.trim() || "Yes";
+        if (control.closest(".if-nominees")) label = "Nominee";
+        else if (control.closest("#interview-people"))
+          label = "Interview participant";
+      }
+      if (control.type === "radio") {
+        label =
+          control.name === "interviewInterest"
+            ? "Interview interest"
+            : control.name === "trailerPasswordProtected"
+              ? "Trailer password protected"
+              : control.name === "clipPasswordProtected"
+                ? "Clip password protected"
+                : label;
+        value = control.value === "yes" ? "Yes" : "No";
+      }
+      if (control.tagName === "SELECT" && control.value)
+        value = control.selectedOptions[0]?.textContent.trim() || "";
+      if (!label || !value) continue;
+
+      if (!rows.has(label)) rows.set(label, new Set());
+      rows.get(label).add(value);
+    }
+
+    const details = document.createElement("dl");
+    for (const [label, values] of rows) {
+      const term = document.createElement("dt");
+      term.textContent = label;
+      const description = document.createElement("dd");
+      description.textContent = [...values].join(", ");
+      details.append(term, description);
+    }
+
+    if (details.children.length) {
+      group.append(details);
+    } else {
+      const empty = document.createElement("p");
+      empty.className = "if-review-empty";
+      empty.textContent = "No information entered.";
+      group.append(empty);
+    }
+    reviewOverview.append(group);
+  }
+}
+
+document.addEventListener("input", updateReviewOverview);
+document.addEventListener("change", updateReviewOverview);
+document.addEventListener("click", (event) => {
+  if (
+    event.target instanceof Element &&
+    event.target.closest(
+      ".if-remove-person, #award-entries button, .if-remove-interview-person",
+    )
+  ) {
+    updateReviewOverview();
+  }
+});
+updateReviewOverview();
 
 function showSection(section) {
   if (section === activeSection) return;
@@ -567,6 +802,7 @@ for (const [index, link] of sectionLinks.entries()) {
     if (section.open) {
       markSectionVisited(section);
       showSection(section);
+      if (section === reviewSection) updateReviewOverview();
     }
     scheduleSectionUpdate();
   });

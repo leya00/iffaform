@@ -201,6 +201,37 @@
 .if-section#film-details .if-grid {
   grid-template-columns: minmax(0, 1fr);
 }
+.if-runtime-field {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+.if-runtime-field legend {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+.if-runtime-field legend span {
+  color: var(--gold);
+}
+.if-runtime-inputs {
+  display: flex;
+  gap: 12px;
+}
+.if-runtime-unit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 180px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.if-runtime-unit input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
 .if-field {
   margin-bottom: 14px;
 }
@@ -629,6 +660,77 @@ body {
   margin: 8px 0;
 }
 
+.if-interview-custom {
+  margin: 20px 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.if-interview-custom h3 {
+  margin-top: 0;
+}
+.if-interview-custom-person {
+  align-items: end;
+}
+.if-interview-custom-person .if-remove-interview-person {
+  justify-self: start;
+  margin-bottom: 14px;
+}
+.if-interview-contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 12px;
+}
+.if-interview-contact-grid .if-field {
+  min-width: 0;
+}
+.if-interview-help {
+  font-size: 14px;
+}
+.if-interview-disclaimer {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.if-review-group {
+  margin: 12px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #080706;
+}
+.if-review-group h3 {
+  margin: 0 0 10px;
+}
+.if-review-group dl {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.8fr) minmax(0, 2fr);
+  gap: 6px 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.if-review-group dt {
+  color: var(--muted);
+}
+.if-review-group dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--text);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.if-review-empty {
+  margin: 0;
+}
+@media (max-width: 520px) {
+  .if-review-group dl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+  .if-review-group dd {
+    margin-bottom: 10px;
+  }
+}
 .if-section-nav {
   position: sticky;
   top: 0;

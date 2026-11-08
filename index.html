@@ -23,8 +23,8 @@
       <main>
         <p class="if-eyebrow">IFFA Awards / Film submission</p>
         <h1>Submit Your Film</h1>
-        <p>There are 5 sections to complete. </p>
-        <p>Please have all relevent media and URLs ready before beginning as you will need to provide them in the appropriate sections.</p>
+        <p>There are 6 sections to complete. </p>
+        <p>Please have all relevant media and URLs ready before beginning as you will need to provide them in the appropriate sections.</p>
         <nav class="if-section-nav" aria-label="Submission sections">
           <div class="if-section-links">
             <a href="#film-details"
@@ -35,12 +35,15 @@
               ><span aria-hidden="true">3</span>Nominations</a
             >
             <a href="#media-links"><span aria-hidden="true">4</span>Media</a>
-            <a href="#review-submit"><span aria-hidden="true">5</span>Review</a>
+            <a href="#interview-interest"
+              ><span aria-hidden="true">5</span>Interview interest</a
+            >
+            <a href="#review-submit"><span aria-hidden="true">6</span>Review</a>
           </div>
           <div class="if-section-progress">
-            <span id="visited-count">0 of 5 sections visited</span>
+            <span id="visited-count">0 of 6 sections visited</span>
             <progress
-              max="5"
+              max="6"
               value="0"
               aria-labelledby="visited-count"
             ></progress>
@@ -70,16 +73,42 @@
                 >Release date <span>*</span
                 ><input type="date" placeholder="Release date"
               /></label>
-              <div class="if-grid">
-                <label class="if-field"
-                  >Runtime hours <span>*</span>
-                  <input type="number" placeholder="Runtime hours"
-                /></label>
-                <label class="if-field"
-                  >Runtime minutes <span>*</span>
-                  <input type="number" placeholder="Runtime minutes" />
-                </label>
-              </div>
+              <fieldset class="if-field if-runtime-field">
+                <legend>Runtime <span>*</span></legend>
+                <div class="if-runtime-inputs">
+                  <label class="if-runtime-unit">
+                    <span>Hours</span>
+                    <input
+                      type="number"
+                      id="runtime-hours"
+                      min="0"
+                      step="1"
+                      inputmode="numeric"
+                      aria-label="Runtime hours"
+                    />
+                  </label>
+                  <label class="if-runtime-unit">
+                    <span>Minutes</span>
+                    <input
+                      type="number"
+                      id="runtime-minutes"
+                      min="0"
+                      max="59"
+                      step="1"
+                      inputmode="numeric"
+                      aria-label="Runtime minutes"
+                    />
+                  </label>
+                </div>
+                <input
+                  type="hidden"
+                  name="runtime"
+                  data-review-label="Runtime"
+                />
+                <small id="runtime-help"
+                  >Enter the film duration in hours and minutes.</small
+                >
+              </fieldset>
               <label class="if-field"
                 >Screen format <span>*</span>
                 <select>
@@ -388,17 +417,147 @@
             </label>
           </div>
         </details>
-        <details class="if-section" id="review-submit">
+        <details class="if-section" id="interview-interest">
           <summary class="if-section-toggle">
             <span class="if-number">5</span>
+            <h2>Video podcast interview</h2>
+            <span class="if-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="if-section-body">
+            <p>
+              IFFA may invite cast and crew members to participate in a video
+              podcast interview discussing the film’s creative journey,
+              experience and behind-the-scenes stories. Interviews will be
+              arranged at a mutually convenient time.
+            </p>
+            <p>
+              If you would like to be considered for an interview, please
+              indicate below.
+            </p>
+            <fieldset class="if-password-question">
+              <legend>Would you like to be considered for an interview?</legend>
+              <div class="if-password-choices">
+                <label>
+                  <input
+                    type="radio"
+                    name="interviewInterest"
+                    value="yes"
+                    aria-controls="interview-details"
+                  />
+                  <span>Yes</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="interviewInterest"
+                    value="no"
+                    aria-controls="interview-details"
+                  />
+                  <span>No</span>
+                </label>
+              </div>
+            </fieldset>
+            <p class="if-interview-help">
+              If you select No, no further action is required.
+            </p>
+            <div id="interview-details" hidden>
+              <fieldset class="if-nominee-fieldset">
+                <legend>Cast and crew to consider</legend>
+                <p>Select everyone who would like to be considered.</p>
+                <div id="interview-people"></div>
+                <p id="interview-people-help" class="if-interview-help">
+                  Add cast or crew names in the Cast &amp; crew section to list
+                  them here.
+                </p>
+                <div class="if-interview-custom">
+                  <h3>Someone not listed?</h3>
+                  <div id="interview-custom-people"></div>
+                  <button type="button" id="add-interview-person">
+                    + Add a person
+                  </button>
+                </div>
+              </fieldset>
+              <h3>Interview contact</h3>
+              <p>Who should IFFA contact to arrange the interview?</p>
+              <div class="if-interview-contact-grid">
+                <label class="if-field"
+                  >Contact name <span>*</span>
+                  <input
+                    type="text"
+                    name="interviewContactName"
+                    autocomplete="name"
+                    required
+                  />
+                </label>
+                <label class="if-field"
+                  >Role or relationship <span>*</span>
+                  <input
+                    type="text"
+                    name="interviewContactRole"
+                    placeholder="e.g. Producer, publicist, representative"
+                    required
+                  />
+                </label>
+                <label class="if-field"
+                  >Contact email <span>*</span>
+                  <input
+                    type="email"
+                    name="interviewContactEmail"
+                    autocomplete="email"
+                    required
+                  />
+                </label>
+                <label class="if-field"
+                  >Phone / WhatsApp number <span>*</span>
+                  <input
+                    type="tel"
+                    name="interviewContactPhone"
+                    autocomplete="tel"
+                    placeholder="+61 412 345 678"
+                    required
+                  />
+                  <small
+                    >Include the country calling code, for example +61 for
+                    Australia.</small
+                  >
+                </label>
+                <label class="if-field"
+                  >Contact’s country <span>*</span>
+                  <select name="interviewContactCountry" required>
+                    <option value="" selected disabled>Select a country…</option>
+                  </select>
+                </label>
+              </div>
+              <label class="if-field"
+                  >Additional notes <small>Optional</small>
+                  <textarea
+                    name="interviewNotes"
+                    rows="3"
+                    placeholder="Anything else IFFA should know?"
+                  ></textarea>
+              </label>
+              <p class="if-interview-disclaimer">
+                IFFA will contact the nominated representative to discuss
+                participation availability and recording arrangements.
+                Expressing interest does not guarantee that an interview will
+                be arranged.
+              </p>
+            </div>
+          </div>
+        </details>
+        <details class="if-section" id="review-submit">
+          <summary class="if-section-toggle">
+            <span class="if-number">6</span>
             <h2>Review &amp; submit</h2>
             <span class="if-chevron" aria-hidden="true">⌄</span>
           </summary>
           <div class="if-section-body">
             <h3>Check your submission</h3>
             <p>
-              Review your film details, people, award entries and media above.
+              Review your film details, people, award entries, media and
+              interview preferences above.
             </p>
+            <div id="review-overview" aria-live="polite"></div>
             <label class="if-field"
               >Submission contact email <span>*</span
               ><input
